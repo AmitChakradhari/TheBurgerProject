@@ -1,6 +1,6 @@
 import React from 'react';
+import Burgeringredientclass from './BurgerIngredient.css';
 import * as types from './../Utility/IngredientType';
-import classes from './BurgerIngredient.css';
 const divStyle1 = {
     margin: '40px',
     border: '5px solid pink'
@@ -12,7 +12,7 @@ const divStyle = {
 };
 const burgerIngredient = (props) => (
     
-    <div style = {divStyle}>fff</div>
+    <div className={Burgeringredientclass.Meat}>fff</div>
     // switch (props.type) {
     //     case (types.BreadBottom):
     //         ingredient = <div className = {classes.BreadBottom}></div>
