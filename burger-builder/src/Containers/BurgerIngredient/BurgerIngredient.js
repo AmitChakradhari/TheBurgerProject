@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './BurgerIngredient.css';
-import * as types from './../Utility/IngredientType';
+import * as types from './../../Utility/IngredientType';
 
 const burgerIngredient = (props) => {
     

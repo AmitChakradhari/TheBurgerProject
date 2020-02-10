@@ -1,7 +1,8 @@
 import React from 'react';
 import classes from './Burger.css'
-import * as types from './../Utility/IngredientType';
-import BurgerIngredient from './BurgerIngredient'
+import * as types from '../../Utility/IngredientType';
+import BurgerIngredient from '../BurgerIngredient/BurgerIngredient'
+
 const burger = (props) => {
     let ingredientItems = Object.keys(props.ingredients)
     .map((ingredientKey) => {
@@ -9,7 +10,15 @@ const burger = (props) => {
         .map((_,i) => {
             return <BurgerIngredient key={ingredientKey+i} type={ingredientKey}/>
         });
-    });
+    })
+    .reduce((arr, ele) => {
+        return arr.concat(ele)
+    },[]);
+    
+    if (ingredientItems.length === 0) {
+        ingredientItems = <p>Please add ingredients.</p>
+    }
+
     return (
         <div className = {classes.Burger}>
             <h1>burgerrrr</h1>
@@ -19,4 +28,5 @@ const burger = (props) => {
         </div>
     );
 };
+
 export default burger;
