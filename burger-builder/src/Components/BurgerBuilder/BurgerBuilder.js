@@ -3,6 +3,8 @@ import Aux from '../HOC/Aux';
 import Burger from '../../Containers/Burger/Burger';
 import * as ingredientType from './../../Utility/IngredientType';
 import BuildControls from './../../Containers/Burger/BuildControls/BuildControls';
+import Modal from './../../Containers/UI/Modal/Modal';
+import OrderSummary from './../../Containers/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICE = {
     [ingredientType.Meat]: 1.4,
@@ -20,7 +22,8 @@ class BurgerBuilder extends Component {
             [ingredientType.Bacon]: 0
         },
         totalPrice: 4,
-        purchasable: false
+        purchasable: false,
+        purchasing: false
     };
 
     render() {
@@ -32,16 +35,28 @@ class BurgerBuilder extends Component {
         }
         return (
             <Aux>
+                <Modal show={this.state.purchasing}
+                    cancelPurchase={this.cancelPurchaseHandler}>
+                    <OrderSummary orderSummary={this.state.ingredient}/></Modal>
                 <Burger ingredients = {this.state.ingredient}/>
                 <BuildControls 
                 buttonDisabled = {disabledInfo}
                 addIngredient={this.addIngredientHandler}
                 removeIngredient={this.removeIngredientHandler}
                 price={this.state.totalPrice}
-                purchasable={this.state.purchasable}/>
+                purchasable={this.state.purchasable}
+                orderClicked={this.purchaseHandler}/>
             </Aux>
         );
     };
+
+    cancelPurchaseHandler = () => {
+        this.setState({purchasing:false})
+    }
+
+    purchaseHandler = () => {
+        this.setState({purchasing:true})
+    }
 
     updatePurchasable = (ingredState) => {
         let updatedPurchasableState = Object.keys(ingredState).map((ingredientKey) => {
