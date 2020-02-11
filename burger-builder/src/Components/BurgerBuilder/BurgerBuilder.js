@@ -35,7 +35,8 @@ class BurgerBuilder extends Component {
                 <BuildControls 
                 buttonDisabled = {disabledInfo}
                 addIngredient={this.addIngredientHandler}
-                removeIngredient={this.removeIngredientHandler}/>
+                removeIngredient={this.removeIngredientHandler}
+                price={this.state.totalPrice}/>
             </Aux>
         );
     };
@@ -46,7 +47,7 @@ class BurgerBuilder extends Component {
         ingredientCountValue = ingredientCountValue + 1
         copiedState[ingredType] = ingredientCountValue
 
-        let oldPrice = {...this.state.totalPrice}
+        let oldPrice = this.state.totalPrice
         let newPrice = oldPrice + INGREDIENT_PRICE[ingredType]
 
         this.setState({ingredient: copiedState,
@@ -59,7 +60,7 @@ class BurgerBuilder extends Component {
         ingredientCountValue = ingredientCountValue - 1
         copiedState[ingredType] = ingredientCountValue
 
-        let oldPrice = {...this.state.totalPrice}
+        let oldPrice = this.state.totalPrice
         let newPrice = oldPrice - INGREDIENT_PRICE[ingredType]
 
         this.setState({ingredient: copiedState,
