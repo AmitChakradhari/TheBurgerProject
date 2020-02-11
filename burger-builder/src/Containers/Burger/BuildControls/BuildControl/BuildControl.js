@@ -4,9 +4,13 @@ import * as ingredientTypes from './../../../../Utility/IngredientType'
 
 const buildControl = (props) => {
     return <div className={classes.BuildControl}>
-        <label className={classes.Label}>{props.ingredientName}</label>
-        <button className={classes.Less} onClick={props.removeIngredient}>less</button>
-        <button className={classes.More} onClick={props.addIngredient}>more</button>
+        <label className={classes.Label}>
+            {props.ingredientName}</label>
+        <button className={classes.Less} 
+            onClick={props.removeIngredient}
+            disabled={props.buttonDisabled}>less</button>
+        <button className={classes.More} 
+            onClick={props.addIngredient}>more</button>
     </div>
 };
 
