@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './BuildControl.css'
-import * as ingredientTypes from './../../../../Utility/IngredientType'
 
 const buildControl = (props) => {
     return <div className={classes.BuildControl}>
