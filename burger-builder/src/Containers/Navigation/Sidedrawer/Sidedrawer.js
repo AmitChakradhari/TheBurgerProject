@@ -6,7 +6,7 @@ import Backdrop from './../../UI/Backdrop/Backdrop';
 import Aux from './../../../Components/HOC/Aux';
 
 const sidedrawer = (props) => {
-    let classList = [classes.Sidedrawer, classes.Open]
+    let classList = [classes.Sidedrawer, classes.Close]
     classList = props.open ? [classes.Sidedrawer, classes.Open].join(' ') : [classes.Sidedrawer, classes.Close].join(' ')
     return (
         <Aux>

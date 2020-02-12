@@ -6,14 +6,14 @@ import Sidedrawer from './../../Containers/Navigation/Sidedrawer/Sidedrawer';
 
 class layout extends Component {
     state = {
-        shouldShowSidedrawer: true
+        shouldShowSidedrawer: false
     };
     render() {
         
         return (
         <Aux>
             <Sidedrawer open={this.state.shouldShowSidedrawer} cancel={this.sidedrawerCancelHandler}/>
-            <Toolbar />
+            <Toolbar menuButtonPressed={this.menuButtonPressedHandler}/>
             <main className = {classes.Content}>
                 {this.props.children}
             </main>
@@ -22,6 +22,10 @@ class layout extends Component {
     }
     sidedrawerCancelHandler = () => {
         this.setState({shouldShowSidedrawer: false})
+    }
+
+    menuButtonPressedHandler= () => {
+        this.setState({shouldShowSidedrawer: true})
     }
 }
 
