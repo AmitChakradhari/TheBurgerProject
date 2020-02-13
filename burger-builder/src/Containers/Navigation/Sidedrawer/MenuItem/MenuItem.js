@@ -1,8 +1,9 @@
 import React from 'react';
+import DrawerToggle from './../DrawerToggle/DrawerToggle';
 
 const menuItem = (props) => (
     <div onClick={props.clicked}>
-        MENU
+        <DrawerToggle />
     </div>
 )
 
