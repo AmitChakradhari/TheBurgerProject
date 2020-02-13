@@ -5,6 +5,8 @@ import * as ingredientType from './../../Utility/IngredientType';
 import BuildControls from './../../Containers/Burger/BuildControls/BuildControls';
 import Modal from './../../Containers/UI/Modal/Modal';
 import OrderSummary from './../../Containers/OrderSummary/OrderSummary';
+import axiosInstance from './../../axios-orders';
+import Spinner from './../../Containers/UI/Spinner/Spinner';
 
 const INGREDIENT_PRICE = {
     [ingredientType.Meat]: 1.4,
@@ -23,7 +25,8 @@ class BurgerBuilder extends Component {
         },
         totalPrice: 4,
         purchasable: false,
-        purchasing: false
+        purchasing: false,
+        isLoading: false
     };
 
     render() {
@@ -33,14 +36,21 @@ class BurgerBuilder extends Component {
         for (let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0
         }
+        let orderDetails = <OrderSummary orderSummary={this.state.ingredient} 
+        continueOrder={this.continuePurchaseHandler} 
+        cancelOrder={this.cancelPurchaseHandler}
+        totalPrice={this.state.totalPrice}/>
+
+        if (this.state.isLoading) {
+            orderDetails = <Spinner />
+        }
+
         return (
             <Aux>
                 <Modal show={this.state.purchasing}
                     cancelPurchase={this.cancelPurchaseHandler}>
-                    <OrderSummary orderSummary={this.state.ingredient} 
-                        continueOrder={this.continuePurchaseHandler} 
-                        cancelOrder={this.cancelPurchaseHandler}
-                        totalPrice={this.state.totalPrice}/></Modal>
+                        {orderDetails}
+                    </Modal>
                 <Burger ingredients = {this.state.ingredient}/>
                 <BuildControls 
                 buttonDisabled = {disabledInfo}
@@ -54,7 +64,36 @@ class BurgerBuilder extends Component {
     };
 
     continuePurchaseHandler = () => {
-        alert('you continued')
+
+        this.setState({
+            isLoading: true
+        })
+        axiosInstance.post('/orders.json',{
+            ingredients: this.state.ingredient,
+            totalPrice: this.state.totalPrice,
+            customer: {
+                name: 'Amit',
+                email: 'a@gmail.com',
+                address: {
+                    city: 'Bengaludu',
+                    pin: 690095
+                }
+            }
+        })
+        .then(res => {
+            console.log(res)
+            this.setState({
+                isLoading: false,
+                purchasing: false
+            })
+        })
+        .catch(error => {
+            console.log(error)
+            this.setState({
+                isLoading: false,
+                purchasing: false
+            })
+        })
     }
 
     cancelPurchaseHandler = () => {
