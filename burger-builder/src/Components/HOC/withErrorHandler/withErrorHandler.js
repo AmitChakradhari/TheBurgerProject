@@ -7,24 +7,31 @@ const withErrorHandler = (WrappedComponent, axios) => {
         state = {
             error: null
         }
-        componentDidMount() {
-            axios.interceptors.request.use((req) => {
+        componentWillMount() {
+            this.requestInterceptor = axios.interceptors.request.use((req) => {
                 this.setState({error: null})
                 return req
             })
-            axios.interceptors.response.use(res => res,err => {
+            this.responseInterceptor = axios.interceptors.response.use(res => res,err => {
                 this.setState({error: err})
             })
+        }
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.requestInterceptor)
+            axios.interceptors.response.eject(this.responseInterceptor)
         }
         render() {
             return (
                 <Aux>
-                    <Modal show={this.state.error}>
+                    <Modal show={this.state.error} cancelPurchase={this.cancelPurchaseHandler}>
                         {this.state.error ? this.state.error.message : null}
                     </Modal>
                     <WrappedComponent {...this.props}/>
                 </Aux>
             )
+        }
+        cancelPurchaseHandler = () => {
+            this.setState({error:null})
         }
     }
 }
