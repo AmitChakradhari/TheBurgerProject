@@ -7,6 +7,7 @@ import Modal from './../../Containers/UI/Modal/Modal';
 import OrderSummary from './../../Containers/OrderSummary/OrderSummary';
 import axiosInstance from './../../axios-orders';
 import Spinner from './../../Containers/UI/Spinner/Spinner';
+import withErrorHandler from './../HOC/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICE = {
     [ingredientType.Meat]: 1.4,
@@ -68,7 +69,7 @@ class BurgerBuilder extends Component {
         this.setState({
             isLoading: true
         })
-        axiosInstance.post('/orders.json',{
+        axiosInstance.post('/orders.jsonsss',{
             ingredients: this.state.ingredient,
             totalPrice: this.state.totalPrice,
             customer: {
@@ -143,4 +144,4 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder,axiosInstance);
