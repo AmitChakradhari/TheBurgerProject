@@ -8,7 +8,6 @@ import OrderSummary from './../../Containers/OrderSummary/OrderSummary';
 import axiosInstance from './../../axios-orders';
 import Spinner from './../../Containers/UI/Spinner/Spinner';
 import withErrorHandler from './../HOC/withErrorHandler/withErrorHandler';
-import Checkout from './../../Containers/CheckoutPage/Checkout';
 
 const INGREDIENT_PRICE = {
     [ingredientType.Meat]: 1.4,
@@ -78,10 +77,8 @@ class BurgerBuilder extends Component {
                 <Modal show={this.state.purchasing}
                     cancelPurchase={this.cancelPurchaseHandler}>
                         {orderDetails}
-                    </Modal>
-                {burgerView}
-                <Checkout />
-                
+                </Modal>
+                {burgerView}                
             </Aux>
         );
     };
