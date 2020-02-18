@@ -14,7 +14,7 @@ function App() {
         <Layout>
           <Switch>
           <Route path='/checkout' component={Checkout} />
-          <Route path='/' exact component={BurgerBuilder} />
+          <Route exact path='/' component={BurgerBuilder} />
           </Switch>
         </Layout>
         
