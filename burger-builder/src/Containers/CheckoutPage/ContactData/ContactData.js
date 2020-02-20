@@ -40,7 +40,7 @@ class ContactData extends Component {
         })
         axiosInstance.post('/orders.json',{
             ingredients: this.props.ingredients,
-            totalPrice: this.state.price,
+            price: this.props.price,
             customer: {
                 name: this.state.name,
                 email: this.state.email,
