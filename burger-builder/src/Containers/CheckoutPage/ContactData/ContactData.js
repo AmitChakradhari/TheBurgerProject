@@ -11,11 +11,12 @@ class ContactData extends Component {
         address:{
             street:'',
             location:''
-        }
+        },
+        isLoading:false
     }
     render () {
-        return (
-            <div className={classes.ContactData}>
+        let formView = this.state.isLoading ? <Spinner /> : (
+            <div>
                 <p>Enter your contact data</p>
                 <form>
                     <input className={classes.Input} type='text' name='name' placeholder='Name' />
@@ -23,22 +24,28 @@ class ContactData extends Component {
                     <input className={classes.Input} type='text' name='street' placeholder='Street' />
                     <input className={classes.Input} type='text' name='location' placeholder='Location' />
                 </form>
-                <Button btnType='Success'>ORDER</Button>
+                <Button btnType='Success' clicked={this.orderButtonClicked}>ORDER</Button>
+            </div>
+        )
+
+        return (
+            <div className={classes.ContactData}>
+                {formView}
             </div>
         )
     }
-    oderButtonClicked = () => {
+    orderButtonClicked = () => {
         this.setState({
             isLoading: true
         })
         axiosInstance.post('/orders.json',{
-            ingredients: this.state.ingredient,
-            totalPrice: this.state.totalPrice,
+            ingredients: this.props.ingredients,
+            totalPrice: this.state.price,
             customer: {
-                name: 'Amit',
-                email: 'a@gmail.com',
-                address: {
-                    city: 'Bengaludu',
+                name: this.state.name,
+                email: this.state.email,
+                address: { ...this.state.address,
+                    city: 'Bengaluru',
                     pin: 690095
                 }
             }
@@ -47,14 +54,13 @@ class ContactData extends Component {
             console.log(res)
             this.setState({
                 isLoading: false,
-                purchasing: false
             })
+            this.props.history.push('/')
         })
         .catch(error => {
             console.log(error)
             this.setState({
                 isLoading: false,
-                purchasing: false
             })
         })
     }

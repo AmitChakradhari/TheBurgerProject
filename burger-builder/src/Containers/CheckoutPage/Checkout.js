@@ -8,15 +8,10 @@ const PRICE_NAME = 'price'
 
 class Checkout extends Component {
     state={
-        ingredients: {
-            Meat:0,
-            Salad:0,
-            Cheese:0,
-            Bacon:0
-        },
+        ingredients:null,
         price:0
     }
-    componentDidMount() {
+    componentWillMount() {
         let searchParams = new URLSearchParams(this.props.location.search)
         let ingredient = {}
         ingredient[IngredientType.Meat]= +searchParams.get(IngredientType.Meat)
@@ -36,7 +31,7 @@ class Checkout extends Component {
                     cancelCheckout={this.cancelCheckout}
                     continueCheckout={this.continueCheckout}/>
                     
-                <Route path={this.props.match.path + '/contact-data'} render={()=>(<ContactData ingredients={this.state.ingredients} price={this.state.price} />)} />
+                <Route path={this.props.match.path + '/contact-data'} render={(props)=>(<ContactData ingredients={this.state.ingredients} price={this.state.price} {...props}/>)} />
             </div>
         )
     }
