@@ -1,4 +1,6 @@
 export { addIngredient, 
-    removeIngredient
+    removeIngredient,
+    initIngredient,
+    fetchIngredientFailed
 }from './bugerBuilder';
 export {} from './order';
