@@ -4,5 +4,7 @@ export { addIngredient,
     fetchIngredientFailed
 }from './bugerBuilder';
 export {
-    purchaseBurger
+    purchaseBurger,
+    purchaseInit,
+    fetchOrders
 } from './order';

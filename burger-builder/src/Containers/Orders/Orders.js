@@ -2,43 +2,41 @@ import React,{Component} from 'react';
 import Order from './Order/Order';
 import axios from './../../axios-orders';
 import withErrorHandler from './../../Components/HOC/withErrorHandler/withErrorHandler';
+import * as actions from './../../Store/actions/index';
+import {connect} from 'react-redux';
+import Spinner from './../UI/Spinner/Spinner';
 
 class Orders extends Component {
-    state={
-        isLoading: false,
-        orders: []
-    }
-    componentDidMount() {
-        let order = []
-        //this.setState({isLoading:true})
-        axios.get('/orders.json')
-        .then((res) => {
 
-            for (let key in res.data) {  
-                order.push({
-                    ...res.data[key],
-                    orderId:key
-                })
-            }
-            this.setState({orders:order})            
-            //this.setState({isLoading:false})
-        })
-        .catch(() => {
-            //this.setState({isLoading:false})
-        })
-        
+    componentDidMount() {
+        this.props.onFetchOrders()
     }
     render () {
-        
-        let ordersView = this.state.orders.map((ord) => {
-            return <Order key={ord.orderId} ingredients={ord.ingredients} price={ord.price}/>
-        });
+        let orderView = <Spinner />
+        if (!this.props.loading) {
+            orderView = this.props.orders.map((ord) => {
+                return <Order key={ord.orderId} ingredients={ord.ingredients} price={ord.price}/>
+            });
+        }
         return (
             <div>
-                {ordersView}
+                {orderView}
             </div>
         )
     }
 }
 
-export default withErrorHandler(Orders,axios);
+const mapStateToProps = (state) => {
+    return {
+        orders: state.order.orders,
+        loading: state.order.loading
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFetchOrders: () => dispatch(actions.fetchOrders())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders,axios));
