@@ -3,4 +3,6 @@ export { addIngredient,
     initIngredient,
     fetchIngredientFailed
 }from './bugerBuilder';
-export {} from './order';
+export {
+    purchaseBurger
+} from './order';
