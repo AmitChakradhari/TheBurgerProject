@@ -1,5 +1,5 @@
-import * as actionTypes from './action';
-import * as ingredientType from './../Utility/IngredientType';
+import * as actionTypes from './../actions/actionTypes';
+import * as ingredientType from '../../Utility/IngredientType';
 
 const INGREDIENT_PRICE = {
     [ingredientType.Meat]: 1.4,

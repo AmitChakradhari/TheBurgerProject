@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import CheckoutSummary from './CheckoutSummary/CheckoutSummary';
-import * as IngredientType from './../../Utility/IngredientType';
 import {Route} from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 import {connect} from 'react-redux';
