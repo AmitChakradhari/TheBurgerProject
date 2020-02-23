@@ -1,6 +1,5 @@
 import * as actionTypes from './actionTypes';
 import axiosInstance from './../../axios-orders';
-import { connect } from 'react-redux';
 
 export const purchaseBurger = (orderData) => {
     return dispatch => {
