@@ -70,8 +70,7 @@ export const fetchOrders = () => {
         dispatch(fetchOrdersStart())
         let order = []
         axiosInstance.get('/orders.json')
-        .then((response) => {
-
+        .then((response) => {            
             for (let key in response.data) {  
                 order.push({
                     ...response.data[key],

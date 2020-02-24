@@ -14,7 +14,7 @@ class Orders extends Component {
     render () {
         let orderView = <Spinner />
         if (!this.props.loading) {
-            orderView = this.props.orders.map((ord) => {
+            orderView = this.props.orders.map((ord) => {                
                 return <Order key={ord.orderId} ingredients={ord.ingredients} price={ord.price}/>
             });
         }
