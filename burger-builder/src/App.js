@@ -4,7 +4,7 @@ import Layout from './Components/Layout/Layout';
 import Aux from './Components/HOC/Aux'
 import BurgerBuilder from './Components/BurgerBuilder/BurgerBuilder';
 import Checkout from './Containers/CheckoutPage/Checkout';
-import {Route, Switch, withRouter} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import Orders from './Containers/Orders/Orders';
 import Auth from './Containers/Auth/Auth';
 import Logout from './Containers/Auth/Logout/Logout';
@@ -16,24 +16,46 @@ class App extends Component {
   componentDidMount () {
     this.props.onTrySignup()
   }
+
   render () {
+
+    let routes = (
+      <Switch>
+        <Route exact path='/' component={BurgerBuilder} />
+        <Route path='/auth' component={Auth} />
+        <Redirect to='/' />
+      </Switch>
+    )
+
+    if (this.props.isAuthenticated) {
+      routes = (
+        <Switch>
+            <Route path='/checkout' component={Checkout} />
+            <Route exact path='/' component={BurgerBuilder} />
+            <Route path='/orders' component={Orders} />
+            <Route path='/logout' component={Logout} />
+            <Redirect to='/' />
+          </Switch>
+      )
+    }
+
     return (
       <div className={classes.App}>
         <Aux>
           
           <Layout>
-            <Switch>
-            <Route path='/checkout' component={Checkout} />
-            <Route exact path='/' component={BurgerBuilder} />
-            <Route path='/orders' component={Orders} />
-            <Route path='/auth' component={Auth} />
-            <Route path='/logout' component={Logout} />
-            </Switch>
+            {routes}
           </Layout>
           
         </Aux>
       </div>
     )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null
   }
 }
 
@@ -43,4 +65,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
