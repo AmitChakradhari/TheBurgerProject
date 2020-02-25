@@ -1,33 +1,33 @@
-import React,{Component} from 'react';
+import React,{useState} from 'react';
 import Aux from './../HOC/Aux';
 import classes from './Layout.css';
 import Toolbar from './../../Containers/Navigation/Toolbar/Toolbar';
 import Sidedrawer from './../../Containers/Navigation/Sidedrawer/Sidedrawer';
 import {connect} from 'react-redux';
 
-class layout extends Component {
-    state = {
-        shouldShowSidedrawer: false
-    };
-    render() {
-        
+const Layout = (props) => {
+
+    const [shouldShowSidedrawer, setShouldShowSidedrawer] = useState(false)
+
+    const sidedrawerCancelHandler = () => {
+        setShouldShowSidedrawer(false)
+    }
+
+    const menuButtonPressedHandler = () => {
+        setShouldShowSidedrawer(true)
+    }
+
         return (
         <Aux>
-            <Sidedrawer isAuthenticated={this.props.isAuthenticated} open={this.state.shouldShowSidedrawer} cancel={this.sidedrawerCancelHandler}/>
-            <Toolbar isAuthenticated={this.props.isAuthenticated} menuButtonPressed={this.menuButtonPressedHandler}/>
+            <Sidedrawer isAuthenticated={props.isAuthenticated} open={shouldShowSidedrawer} cancel={sidedrawerCancelHandler}/>
+            <Toolbar isAuthenticated={props.isAuthenticated} menuButtonPressed={menuButtonPressedHandler}/>
             <main className = {classes.Content}>
-                {this.props.children}
+                {props.children}
             </main>
         </Aux>
         )
-    }
-    sidedrawerCancelHandler = () => {
-        this.setState({shouldShowSidedrawer: false})
-    }
-
-    menuButtonPressedHandler= () => {
-        this.setState({shouldShowSidedrawer: true})
-    }
+    
+    
 }
 
 const dispatchStateToProps = (state) => {
@@ -36,4 +36,4 @@ const dispatchStateToProps = (state) => {
     }
 }
 
-export default connect(dispatchStateToProps)(layout);
+export default connect(dispatchStateToProps)(Layout);

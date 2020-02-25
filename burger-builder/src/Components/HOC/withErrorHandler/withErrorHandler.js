@@ -1,38 +1,42 @@
-import React,{Component} from 'react';
+import React,{useState, useEffect} from 'react';
 import Aux from './../Aux';
 import Modal from './../../../Containers/UI/Modal/Modal';
 
 const withErrorHandler = (WrappedComponent, axios) => {
-    return class extends Component {
-        state = {
-            error: null
-        }
-        componentWillMount() {
-            this.requestInterceptor = axios.interceptors.request.use((req) => {
-                this.setState({error: null})
+    return (props) => {
+        const [error, setError] = useState(null)
+        
+            const requestInterceptor = axios.interceptors.request.use((req) => {
+                setError(null)
                 return req
             })
-            this.responseInterceptor = axios.interceptors.response.use(res => res,err => {
-                this.setState({error: err})
+            const responseInterceptor = axios.interceptors.response.use(res => res,err => {
+                setError(err)
             })
+        
+            // componentWillUnmout (returning a function)
+            useEffect(() => { 
+                return () => {
+                    axios.interceptors.request.eject(requestInterceptor)
+                    axios.interceptors.response.eject(responseInterceptor)
+                }
+            }, [requestInterceptor, responseInterceptor])
+        
+            
+        
+        
+        const cancelPurchaseHandler = () => {
+            setError(null)
         }
-        componentWillUnmount() {
-            axios.interceptors.request.eject(this.requestInterceptor)
-            axios.interceptors.response.eject(this.responseInterceptor)
-        }
-        render() {
-            return (
-                <Aux>
-                    <Modal show={this.state.error} cancelPurchase={this.cancelPurchaseHandler}>
-                        {this.state.error ? this.state.error.message : null}
-                    </Modal>
-                    <WrappedComponent {...this.props}/>
-                </Aux>
-            )
-        }
-        cancelPurchaseHandler = () => {
-            this.setState({error:null})
-        }
+
+        return (
+            <Aux>
+                <Modal show={error} cancelPurchase={cancelPurchaseHandler}>
+                    {error ? error.message : null}
+                </Modal>
+                <WrappedComponent {...props}/>
+            </Aux>
+        )
     }
 }
 
