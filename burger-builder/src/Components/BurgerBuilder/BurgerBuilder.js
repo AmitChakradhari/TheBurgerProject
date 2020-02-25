@@ -40,7 +40,8 @@ class BurgerBuilder extends Component {
                         removeIngredient={this.props.onIngredientRemoved}
                         price={this.props.price}
                         purchasable={this.updatePurchasable(this.props.ingredientState)}
-                        orderClicked={this.purchaseHandler}/>
+                        orderClicked={this.purchaseHandler}
+                        isAuth={this.props.isAuthenticated}/>
                 </Aux>
             )
 
@@ -71,7 +72,13 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {
-        this.setState({purchasing:true})
+        if (this.props.isAuthenticated) {
+            this.setState({purchasing:true})
+        } else {
+            this.props.onSetRedirectionPath('/checkout')
+            this.props.history.push('/auth')
+        }
+        
     }
 
     updatePurchasable = (ingredState) => {
@@ -89,7 +96,8 @@ const mapStateToProps = (state) => {
     return {
         ingredientState: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     }
 }
 
@@ -98,7 +106,8 @@ const mapDispatchToProps = (dispatch) => {
         onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
         onInitIngredients: () => dispatch(actions.initIngredient()),
-        onInitPurchase: () => dispatch(actions.purchaseInit())
+        onInitPurchase: () => dispatch(actions.purchaseInit()),
+        onSetRedirectionPath: (path) => dispatch(actions.setAuthRedirect(path))
     }
 }
 
